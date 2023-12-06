@@ -1,0 +1,4 @@
+{
+  "pattern": "^master|dev|(feature|bugfix|hotfix|release)/.+",
+  "errorMsg": "Branch name validate failed! Available options: ['master', 'dev', 'feature/', 'bugfix/', 'hotfix/', 'release/']"
+}
