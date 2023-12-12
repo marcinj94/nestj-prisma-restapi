@@ -36,11 +36,14 @@ export class ArticlesService {
       where: {
         id,
       },
+      include: {
+        author: true,
+      },
     });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
-    this.prisma.article.update({
+    return this.prisma.article.update({
       where: {
         id,
       },
