@@ -18,9 +18,28 @@ model Article {
   published   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  author      User?    @relation(fields: [authorId], references: [id])
+  authorId    Int?
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  articles  Article[]
 }
 
 // After create model \/
 // With the Prisma schema defined, you will run migrations to create the actual tables in the database. 
 // To generate and execute your first migration, run the following command in the terminal:
 // $ npx prisma migrate dev --name "init"
+
+//The User model has a few fields that you might expect, like id, email, password, etc. 
+// It also has a one to many relationship with the Article model. 
+// This means that a user can have many articles, but an article can only have one author. 
+// For simplicity, the author relation is made optional, so it's still possible to create an article without an author.
+// Now, to apply the changes to your database, run the migration command:
+// npx prisma migrate dev --name "add-user-model"
