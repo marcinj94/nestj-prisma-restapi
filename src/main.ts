@@ -31,6 +31,7 @@ async function bootstrap() {
       'Build REST API with nestJS and Prisma | TUTORIAL: https://www.prisma.io/blog/nestjs-prisma-rest-api-7D056s1BmOL0',
     )
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -1,5 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+/* eslint-disable object-curly-newline */
+/* eslint-disable import/no-unresolved */
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,6 +33,8 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: UserEntity,
   })
@@ -29,6 +44,8 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: UserEntity,
   })
@@ -37,6 +54,8 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({
     type: UserEntity,
   })
@@ -45,6 +64,8 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: UserEntity,
   })

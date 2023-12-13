@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 // You are using an upsert query instead of a create query because upsert removes errors related to accidentally trying to insert the same record twice.
 // Execute seeding with the following command:
@@ -7,18 +8,24 @@ import { PrismaClient } from '@prisma/client';
 // Initialize Prisma Client
 const prisma = new PrismaClient();
 
+const roundsOfHashing = 10;
+
 async function main() {
   // create two dummy users
+  const passwordSabin = await bcrypt.hash('password-sabin', roundsOfHashing);
+  const passwordAlex = await bcrypt.hash('password-alex', roundsOfHashing);
+
   const user1 = await prisma.user.upsert({
     where: {
       email: 'sabin@adams.com',
     },
-    // eslint-disable-next-line object-curly-newline
-    update: {},
+    update: {
+      password: passwordSabin,
+    },
     create: {
       email: 'sabin@adams.com',
       name: 'Sabin Adams',
-      password: 'password-sabin',
+      password: passwordSabin,
     },
   });
 
@@ -26,12 +33,13 @@ async function main() {
     where: {
       email: 'alex@ruheni.com',
     },
-    // eslint-disable-next-line object-curly-newline
-    update: {},
+    update: {
+      password: passwordAlex,
+    },
     create: {
       email: 'alex@ruheni.com',
       name: 'Alex Ruheni',
-      password: 'password-alex',
+      password: passwordAlex,
     },
   });
 
